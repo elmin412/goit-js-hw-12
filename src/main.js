@@ -8,11 +8,16 @@ import SimpleLightbox from "simplelightbox";
 // Додатковий імпорт стилів
 import "simplelightbox/dist/simple-lightbox.min.css";
 
+// Описаний у документації
+import axios from "axios";
+
 import { getImages } from './js/pixabay-api.js';
 import { renderImages } from './js/render-functions.js';
 
 const form = document.querySelector('form');
 const fetchButton = document.querySelector(".search-btn");
+const loadMoreButton = document.querySelector(".load-more-btn");
+
 const container = document.querySelector(".gallery");
 const searchInput = document.querySelector('input[type="text"]');
 const loader = document.querySelector('.loader')

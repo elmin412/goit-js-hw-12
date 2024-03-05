@@ -69,6 +69,11 @@
   color: #2e2f42;
 }
 
+.load-more {
+  display: none;
+  justify-content: center;
+  align-items: flex-end;
+}
 
 @keyframes rotation {
   0% {
