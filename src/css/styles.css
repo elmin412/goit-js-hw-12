@@ -69,8 +69,12 @@
   color: #2e2f42;
 }
 
-.load-more {
+.load-more-btn {
   display: none;
+}
+
+.load-more {
+  display: flex;
   justify-content: center;
   align-items: flex-end;
 }
