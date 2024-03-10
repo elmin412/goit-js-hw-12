@@ -33,21 +33,31 @@ function clearGallery() {
     container.innerHTML = '';
 }
 
+let currentPage;
+let currentQuery;
+const perPage = 15;
+let totalHits = 0;
+
+
 async function markupImages(event) {
     event.preventDefault();
     const query = searchInput.value.trim();
     clearGallery();
     showLoader();
     form.reset();
-   try {
-     const images = await getImages(query);
+  try {
+    const images = await getImages(query, currentPage, perPage);
       renderImages(images);
       hideLoader()
-      lightbox.refresh();
+    lightbox.refresh();
+
+    currentPage = 1;
+    currentQuery = query;
+
+
      if (images.length > 1) {
        loadMore.style.display = 'flex';
-     }
-  } 
+     }} 
     catch(error) {
       hideLoader();
         loadMore.style.display = 'none'; 
@@ -56,37 +66,36 @@ async function markupImages(event) {
           message: "Sorry, there are no images matching your search query. Please try again!",
           position: "topRight",
       });
-    };
+  }
 }
 fetchButton.addEventListener("click", markupImages)
 
-let page = 1;
-let perPage = 15;
-const  limit = 20;
-const totalHits = Math.ceil(100 / limit);
-
 loadMore.addEventListener('click', async () => {
-  const query = searchInput.value.trim();
+
   try {
-    const images = await getImages(query, page, limit, perPage );
+    currentPage ++;
+    const images = await getImages( currentQuery, currentPage, perPage);
         renderImages(images);
-        lightbox.refresh();
-         page + 1;
-       const cardHeight = container.getBoundingClientRect().height;
+    lightbox.refresh();
+        const cardHeight = container.getBoundingClientRect().height;
             window.scrollBy({
             top: 2 * cardHeight,
-            behavior: 'smooth'
-  });
-    if (images.length > totalHits) {
+              behavior: 'smooth' 
+            });
+    
+    
+    if (currentPage === totalHits) {
+      
+
       loadMore.style.display = 'none';
       iziToast.info({
           title: "End of search results",
           message: "We're sorry, but you've reached the end of search results.",
           position: "topRight",
       });
-    }
+    } 
+    console.log(totalHits)
     } catch (error) {
         console.error(error.message);
   }
 })
-

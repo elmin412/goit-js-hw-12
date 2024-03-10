@@ -12,7 +12,7 @@ export function renderImages(images) {
                 <p><span class="image-items-text">Comments: </span>${comments}</p>
                 <p><span class="image-items-text">Downloads: </span>${downloads}</p>
             </li>`;
-    }).join('')
+    }).join('') 
       container.insertAdjacentHTML("beforeend", markup);
 }
 
