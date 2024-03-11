@@ -44,6 +44,8 @@ async function markupImages(event) {
   clearGallery();
   showLoader();
   form.reset();
+  currentPage = 1;
+  currentQuery = query;
   try {
     const images = await getImages(query, currentPage, perPage);
     const data = images.hits;
@@ -51,12 +53,17 @@ async function markupImages(event) {
     renderImages(data);
     hideLoader();
     lightbox.refresh();
-
-    currentPage = 1;
-    currentQuery = query;
-
-    if (data.length > 1) {
+    
+    if (data.length < perPage) {
+      loadMore.style.display = "none";
+      iziToast.info({
+        title: "End of search results",
+        message: "We're sorry, but you've reached the end of search results.",
+        position: "topRight",
+      });
+    }  else {
       loadMore.style.display = "flex";
+      
     }
   } catch (error) {
     hideLoader();
@@ -72,7 +79,7 @@ fetchButton.addEventListener("click", markupImages);
 
 loadMore.addEventListener("click", async () => {
   try {
-    currentPage++;
+    currentPage += 1;
     const images = await getImages(currentQuery, currentPage, perPage);
     const data = images.hits;
     renderImages(data);
