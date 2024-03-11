@@ -15,18 +15,15 @@ export async function getImages(query, currentPage, perPage) {
 
   try {
     const response = await axios.get(LINK);
-
-    const images = response.data.hits;
-    // const totalHits = response.data.totalHits
+    const images = response.data;
     if (!response.data || !response.data.hits || response.data.hits.length === 0) {
       throw new Error("No images found");
     }
- 
+    
     return images;
-  
+
   } catch (error) {
     hideLoader();
     throw error;
   }
-  
 }
